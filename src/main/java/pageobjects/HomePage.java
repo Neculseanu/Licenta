@@ -108,7 +108,7 @@ public class HomePage extends Page {
             triggerSearchHumanLike();
 
         } catch (Exception e) {
-            logger.error("Eroare în căutarea humanizată: {}", e.getMessage());
+            logger.error("Eroare în căutarea umanizată: {}", e.getMessage());
             throw e;
         }
     }

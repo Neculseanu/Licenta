@@ -40,9 +40,9 @@ public class WebDriverManager {
                     // Configurări specifice pentru headless mode - strategia invizibilității
                     chromeOptions.addArguments("--headless");
                     chromeOptions.addArguments("--window-size=" + PropertiesManager.getHeadlessWindowSize());
-                    logger.info("🔒 Running in HEADLESS mode for stealth automation");
+                    logger.info("Running in HEADLESS mode for stealth automation");
                 } else {
-                    logger.info("👁️ Running in NORMAL mode for debugging visibility");
+                    logger.info("Running in NORMAL mode for debugging visibility");
                 }
 
                 chromeOptions.addArguments("--remote-allow-origins=*");
@@ -65,7 +65,7 @@ public class WebDriverManager {
 
                 if (PropertiesManager.isHeadlessMode()) {
                     firefoxOptions.addArguments("--headless");
-                    logger.info("🔒 Running Firefox in HEADLESS mode");
+                    logger.info("Running Firefox in HEADLESS mode");
                 }
 
                 driver.set(new FirefoxDriver(firefoxOptions));
@@ -78,7 +78,7 @@ public class WebDriverManager {
         if (!PropertiesManager.isHeadlessMode()) {
             getDriver().manage().window().maximize();
         }
-        logger.info("✅ Driver inițializat cu succes pentru {} (headless: {})",
+        logger.info("Driver inițializat cu succes pentru {} (headless: {})",
                 browserType, PropertiesManager.isHeadlessMode());
     }
 

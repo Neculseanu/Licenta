@@ -30,12 +30,12 @@ public class TestRunner {
             System.out.println("-".repeat(40));
 
             driver = WebDriverManager.getDriver();
-            System.out.println("✅ Browser initialized: " + driver.getClass().getSimpleName());
-            System.out.println("📍 Target site: Amazon.com");
-            System.out.println("🎯 Search term: " + SEARCH_KEYWORD);
+            System.out.println("Browser initializat: " + driver.getClass().getSimpleName());
+            System.out.println("Site-ul tinta: Amazon.com");
+            System.out.println("Produsul cautat: " + SEARCH_KEYWORD);
             System.out.println();
 
-            System.out.println("🏠 STEP 2: Homepage Navigation");
+            System.out.println("PASUL 1: Pagina de Start");
             System.out.println("-".repeat(40));
 
             HomePage homePage = new HomePage(driver);
@@ -44,14 +44,14 @@ public class TestRunner {
 
             String currentUrl = driver.getCurrentUrl();
             if (currentUrl.toLowerCase().contains("amazon")) {
-                System.out.println("✅ Successfully reached Amazon homepage");
+                System.out.println("Deschiderea paginii cu succes");
             } else {
-                System.out.println("⚠️ URL verification: " + currentUrl);
+                System.out.println("Verificare URL: " + currentUrl);
             }
             System.out.println();
 
 
-            System.out.println("🔍 STEP 3: Product Search");
+            System.out.println("PASUL 2: Cautarea Produsului");
             System.out.println("-".repeat(40));
 
             System.out.println("🎯 Searching for: " + SEARCH_KEYWORD);
@@ -64,19 +64,19 @@ public class TestRunner {
                     currentUrl.contains("search");
 
             if (searchExecuted) {
-                System.out.println("✅ Search executed successfully");
-                System.out.println("📍 Results URL: " + currentUrl);
+                System.out.println("Cautare efectuata cu succes");
+                System.out.println("URL Rezultat: " + currentUrl);
             } else {
-                System.out.println("⚠️ Search verification unclear: " + currentUrl);
+                System.out.println("Search verification unclear: " + currentUrl);
             }
             System.out.println();
 
-            System.out.println("📦 STEP 4: Product Selection");
+            System.out.println("PASUL 3: Selectarea Produsului");
             System.out.println("-".repeat(40));
 
             SearchResultsPage searchResults = new SearchResultsPage(driver);
 
-            System.out.println("🎯 Selecting first available product...");
+            System.out.println("Alegerea unui produs valabil");
             searchResults.selectFirstResult();
 
             currentUrl = driver.getCurrentUrl();
@@ -85,14 +85,14 @@ public class TestRunner {
                     (!currentUrl.contains("s?k=") && !currentUrl.contains("search"));
 
             if (onProductPage) {
-                System.out.println("✅ Product page reached");
+                System.out.println("Deschiderea paginii produsului");
                 System.out.println("📍 Product URL: " + currentUrl.substring(0, Math.min(currentUrl.length(), 80)) + "...");
             } else {
-                System.out.println("⚠️ Navigation status unclear: " + currentUrl);
+                System.out.println("Navigation status unclear: " + currentUrl);
             }
             System.out.println();
 
-            System.out.println("📋 STEP 5: Product Information");
+            System.out.println("PASUL 4: Detaliile Produsului");
             System.out.println("-".repeat(40));
 
             ProductDetailsPage productDetails = new ProductDetailsPage(driver);
@@ -100,44 +100,41 @@ public class TestRunner {
             try {
                 String pageTitle = driver.getTitle();
                 if (pageTitle != null && !pageTitle.isEmpty()) {
-                    System.out.println("📄 Page title: " + pageTitle.substring(0, Math.min(pageTitle.length(), 60)) + "...");
+                    System.out.println("Page title: " + pageTitle.substring(0, Math.min(pageTitle.length(), 60)) + "...");
                 }
 
                 currentUrl = driver.getCurrentUrl();
                 if (currentUrl.contains("/dp/") || currentUrl.contains("product")) {
-                    System.out.println("✅ Confirmed: On product details page");
+                    System.out.println("Confirmed: On product details page");
                 } else {
-                    System.out.println("⚠️ Page type unclear from URL");
+                    System.out.println("Page type unclear from URL");
                 }
 
-                System.out.println("✅ Product page verification completed");
+                System.out.println("Product page verification completed");
 
             } catch (Exception e) {
-                System.out.println("⚠️ Product page verification had issues: " + e.getMessage());
+                System.out.println("Product page verification had issues: " + e.getMessage());
             }
             System.out.println();
 
-            System.out.println("🛒 STEP 6: Add to Cart");
+            System.out.println("PASUL 5: Adaugarea in cos");
             System.out.println("-".repeat(40));
 
-            System.out.println("🎯 Adding product to shopping cart...");
+            System.out.println("Adaugarea produsului in cos");
 
             productDetails.addToCart();
 
-            System.out.println("✅ Add to cart action completed");
+            System.out.println("Adaugarea produsului in cos efectuata");
 
             try {
                 Thread.sleep(2000);
-                System.out.println("⏳ Allowing cart processing time...");
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
             System.out.println();
 
-            System.out.println("🛍️ STEP 7: Shopping Cart Navigation");
+            System.out.println("PASUL 6: Navigam spre cosul de cumparaturi");
             System.out.println("-".repeat(40));
-
-            System.out.println("🎯 Navigating to shopping cart...");
             productDetails.viewCart();
 
             currentUrl = driver.getCurrentUrl();
@@ -146,35 +143,35 @@ public class TestRunner {
                     currentUrl.contains("sw/cart");
 
             if (onCartPage) {
-                System.out.println("✅ Shopping cart page reached");
-                System.out.println("📍 Cart URL: " + currentUrl);
+                System.out.println("Shopping cart page reached");
+                System.out.println("Cart URL: " + currentUrl);
             } else {
-                System.out.println("⚠️ Cart navigation status: " + currentUrl);
+                System.out.println("Cart navigation status: " + currentUrl);
             }
             System.out.println();
 
-            System.out.println("✅ STEP 8: Final Verification");
+            System.out.println("PASUL 7: Verificarea Finala");
             System.out.println("-".repeat(40));
 
             ShoppingCartPage shoppingCart = new ShoppingCartPage(driver);
 
             try {
                 shoppingCart.verifyProductInCart();
-                System.out.println("✅ Product verification in cart: SUCCESS");
-                System.out.println("🛒 The shopping cart contains the expected product");
+                System.out.println("Product verification in cart: SUCCESS");
+                System.out.println("The shopping cart contains the expected product");
 
                 String cartPageTitle = driver.getTitle();
                 if (cartPageTitle != null && cartPageTitle.toLowerCase().contains("cart")) {
-                    System.out.println("✅ Confirmed: On shopping cart page");
+                    System.out.println("Confirmed: On shopping cart page");
                 }
                 currentUrl = driver.getCurrentUrl();
                 if (currentUrl.contains("cart")) {
-                    System.out.println("✅ Cart URL validation: SUCCESS");
+                    System.out.println("Cart URL validation: SUCCESS");
                 }
 
             } catch (Exception e) {
 
-                System.out.println("⚠️ Cart verification encountered an issue:");
+                System.out.println("Cart verification encountered an issue:");
                 System.out.println("   Error: " + e.getMessage());
                 System.out.println("   This could mean:");
                 System.out.println("   - Product was not successfully added to cart");
@@ -186,28 +183,28 @@ public class TestRunner {
             testSuccess = true;
             long duration = System.currentTimeMillis() - startTime;
 
-            System.out.println("🎉 PURCHASE FLOW COMPLETED");
-            System.out.println("=" .repeat(50));
-            System.out.println("✅ Homepage Navigation: SUCCESS");
-            System.out.println("✅ Product Search: SUCCESS");
-            System.out.println("✅ Product Selection: SUCCESS");
-            System.out.println("✅ Product Page Verification: SUCCESS");
-            System.out.println("✅ Add to Cart: SUCCESS");
-            System.out.println("✅ Cart Navigation: SUCCESS");
-            System.out.println("✅ Cart Product Verification: SUCCESS");
-            System.out.println("=" .repeat(50));
-            System.out.println("⏱️ Total execution time: " + (duration / 1000.0) + " seconds");
-            System.out.println("🛒 Purchase simulation completed successfully!");
-            System.out.println("🎯 No CAPTCHA encountered using direct approach!");
-            System.out.println("💡 Framework successfully adapted to existing interfaces!");
+            System.out.println("FLUXUL DE CUMPĂRARE FINALIZAT");
+            System.out.println("=".repeat(50));
+            System.out.println("Navigare către pagina principală: SUCCES");
+            System.out.println("Căutare produs: SUCCES");
+            System.out.println("Selectare produs: SUCCES");
+            System.out.println("Verificare pagină produs: SUCCES");
+            System.out.println("Adăugare în coș: SUCCES");
+            System.out.println("Navigare către coș: SUCCES");
+            System.out.println("Verificare produs în coș: SUCCES");
+            System.out.println("=".repeat(50));
+            System.out.println("Timp total de execuție: " + (duration / 1000.0) + " secunde");
+            System.out.println("Simulare cumpărare finalizată cu succes!");
+            System.out.println("Niciun CAPTCHA întâlnit folosind metoda directă!");
+            System.out.println("Framework-ul a fost adaptat cu succes la interfețele existente!");
             System.out.println();
-            System.out.println("⏸️ Displaying final result for 5 seconds...");
+            System.out.println("Afișare rezultat final timp de 5 secunde...");
             Thread.sleep(5000);
 
         } catch (Exception e) {
             long duration = System.currentTimeMillis() - startTime;
 
-            System.err.println("❌ TEST FAILED AFTER " + (duration / 1000.0) + " SECONDS");
+            System.err.println("TEST FAILED AFTER " + (duration / 1000.0) + " SECONDS");
             System.err.println("Error: " + e.getMessage());
             System.err.println("Location: " + e.getClass().getSimpleName());
 
@@ -224,23 +221,23 @@ public class TestRunner {
         } finally {
 
             System.out.println();
-            System.out.println("🧹 Cleaning up resources...");
+            System.out.println("Cleaning up resources...");
 
             if (driver != null) {
                 try {
                     WebDriverManager.quitDriver();
-                    System.out.println("✅ Browser closed successfully");
+                    System.out.println("Browser closed successfully");
                 } catch (Exception cleanupException) {
-                    System.err.println("⚠️ Cleanup warning: " + cleanupException.getMessage());
+                    System.err.println("Cleanup warning: " + cleanupException.getMessage());
                 }
             }
 
             if (testSuccess) {
-                System.out.println("🏆 AUTOMATION TEST COMPLETED SUCCESSFULLY");
-                System.out.println("💡 Direct approach successfully avoided CAPTCHA detection!");
+                System.out.println("AUTOMATION TEST COMPLETED SUCCESSFULLY");
+                System.out.println("Direct approach successfully avoided CAPTCHA detection!");
             } else {
-                System.out.println("💥 AUTOMATION TEST FAILED");
-                System.out.println("🔍 Review error details above for debugging");
+                System.out.println("AUTOMATION TEST FAILED");
+                System.out.println("Review error details above for debugging");
             }
 
             System.out.println();
