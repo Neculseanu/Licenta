@@ -1,15 +1,20 @@
 package managers;
 
+// Importurile rămân la fel
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static managers.PropertiesManager.proprietatiDeTestare;
 
 public class WebDriverManager {
+    private static final Logger logger = LoggerFactory.getLogger(WebDriverManager.class);
 
-    private static WebDriver driver;
+    // ThreadLocal pentru thread safety
+    private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
     public static String browserType;
 
     public WebDriverManager(String browserType) {
@@ -17,12 +22,6 @@ public class WebDriverManager {
     }
 
     public static void initializareDriver() {
-        try {
-            Thread.sleep((long) (Math.random() * 1000 + 500)); // delay între 500-1500ms înainte de inițializare
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-
         if (browserType == null || browserType.isEmpty()) {
             browserType = proprietatiDeTestare.getProperty("browserType") != null
                     ? proprietatiDeTestare.getProperty("browserType")
@@ -31,41 +30,38 @@ public class WebDriverManager {
 
         switch (browserType.toUpperCase()) {
             case "CHROME":
-                System.setProperty("webdriver.chrome.driver", "src/main/resources/drivers/chromedriver.exe");
+                io.github.bonigarcia.wdm.WebDriverManager.chromedriver().setup();
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions.addArguments("--remote-allow-origins=*");
-                driver = new ChromeDriver(chromeOptions);
+                driver.set(new ChromeDriver(chromeOptions));
                 break;
             case "FIREFOX":
-                System.setProperty("webdriver.gecko.driver", "src/main/resources/drivers/geckodriver.exe");
-                driver = new FirefoxDriver();
+                io.github.bonigarcia.wdm.WebDriverManager.firefoxdriver().setup();
+                driver.set(new FirefoxDriver());
                 break;
             default:
                 throw new RuntimeException("Browser necunoscut: " + browserType);
         }
 
-        try {
-            Thread.sleep((long) (Math.random() * 1000 + 1000)); // delay după lansare browser 1000-2000ms
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+        getDriver().manage().window().maximize();
+        logger.info("Driver inițializat cu succes pentru {}", browserType);
     }
 
     public static WebDriver getDriver() {
-        if (driver == null) {
+        if (driver.get() == null) {
             initializareDriver();
         }
-        return driver;
+        return driver.get();
     }
 
     public static void setDriver(WebDriver newDriver) {
-        driver = newDriver;
+        driver.set(newDriver);
     }
 
     public static void quitDriver() {
-        if (driver != null) {
-            driver.quit();
-            driver = null;
+        if (driver.get() != null) {
+            driver.get().quit();
+            driver.remove();
         }
     }
 }
