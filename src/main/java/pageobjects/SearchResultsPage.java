@@ -27,7 +27,7 @@ public class SearchResultsPage extends Page {
             wait.until(ExpectedConditions.visibilityOfElementLocated(searchResults));
             List<WebElement> products = driver.findElements(productTitles);
             if (!products.isEmpty()) {
-                WebElement firstProduct = products.get(0);
+                WebElement firstProduct = products.get(3);
                 Actions actions = new Actions(driver);
                 actions.moveToElement(firstProduct).click().perform();
                 logger.info("Primul produs selectat cu succes");

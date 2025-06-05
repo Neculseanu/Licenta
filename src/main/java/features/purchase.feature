@@ -1,5 +1,7 @@
+@purchase @smoke
 Feature: Amazon Purchase Journey
 
+  @critical @e2e
   Scenario: Search and add a product to cart
     Given I am on the Amazon home page
     When I search for "laptop"

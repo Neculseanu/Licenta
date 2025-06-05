@@ -34,7 +34,6 @@ public class WebDriverManager {
                 io.github.bonigarcia.wdm.WebDriverManager.chromedriver().setup();
                 ChromeOptions chromeOptions = new ChromeOptions();
 
-                // Verificăm dacă să rulăm în headless mode
                 boolean isHeadless = false;
 
                 if (isHeadless) {
@@ -46,7 +45,6 @@ public class WebDriverManager {
                     logger.info("👁️ Running in NORMAL mode for debugging visibility");
                 }
 
-                // Configurări comune pentru ambele moduri - optimizare pentru evitarea detectării
                 chromeOptions.addArguments("--remote-allow-origins=*");
                 chromeOptions.addArguments("--no-sandbox");
                 chromeOptions.addArguments("--disable-dev-shm-usage");
@@ -56,14 +54,12 @@ public class WebDriverManager {
                 chromeOptions.addArguments("--disable-blink-features=AutomationControlled");
                 chromeOptions.addArguments("--disable-web-security");
 
-                // Configurări pentru user agent mai natural
                 chromeOptions.addArguments("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36");
 
                 driver.set(new ChromeDriver(chromeOptions));
                 break;
 
             case "FIREFOX":
-                // Similar logic for Firefox if needed
                 io.github.bonigarcia.wdm.WebDriverManager.firefoxdriver().setup();
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
 
