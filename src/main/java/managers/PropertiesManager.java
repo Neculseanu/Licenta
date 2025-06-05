@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
+import static java.lang.System.getProperty;
+
 public class PropertiesManager {
     private static final Logger logger = LoggerFactory.getLogger(PropertiesManager.class);
 
@@ -42,5 +44,17 @@ public class PropertiesManager {
             logger.warn("Timeout invalid: {}. Folosesc 30 secunde", timeout);
             return 30;
         }
+    }
+    public static boolean isHeadlessMode() {
+        String headless = getProperty("headless.mode", "true");
+        try {
+            return Boolean.parseBoolean(headless);
+        } catch (Exception e) {
+            logger.warn("Invalid headless configuration: {}. Defaulting to true", headless);
+            return true; // Default sigur pentru evitarea detectării
+        }
+    }
+    public static String getHeadlessWindowSize() {
+        return getProperty("headless.window.size", "1920,1080");
     }
 }

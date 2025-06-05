@@ -11,12 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Random;
 
-/**
- * HomePage cu tehnici avansate de "stealth automation" pentru a evita detectarea ca bot.
- *
- * Această clasă demonstrează cum să faci automation-ul să se comporte mai uman,
- * reducând probabilitatea de a declanșa măsurile anti-bot ale Amazon.
- */
+
 public class HomePage extends Page {
     private static final Logger logger = LoggerFactory.getLogger(HomePage.class);
 
@@ -27,57 +22,25 @@ public class HomePage extends Page {
         super(driver);
     }
 
-    /**
-     * Efectuează căutarea cu tehnici de humanizare pentru a evita detectarea.
-     *
-     * Această metodă implementează multiple strategii pentru a simula comportamentul uman:
-     * - Întârzieri aleatorii naturale
-     * - Mișcări graduali ale mouse-ului
-     * - Typing cu viteze variabile
-     * - Simularea ezitărilor umane
-     */
     public void searchFor(String keyword) {
-        logger.info("Începem căutarea humanizată pentru: '{}'", keyword);
-
+        logger.info("Începem căutarea umanizată pentru: '{}'", keyword);
         try {
-            // Navighează la pagina principală cu pauză naturală
             navigateWithHumanDelay();
-
-            // Simulează timpul de "citire" al paginii înainte de acțiune
             simulatePageReadingTime();
-
-            // Gestionează popup-urile cu comportament uman
             handlePopupsHumanLike();
-
-            // Efectuează căutarea cu mișcări naturale
             performHumanizedSearch(keyword);
-
-            logger.info("Căutarea humanizată completă pentru '{}'", keyword);
-
+            logger.info("Căutarea umanizată completă pentru '{}'", keyword);
         } catch (Exception e) {
-            logger.error("Eroare în căutarea humanizată: {}", e.getMessage());
-            throw new RuntimeException("Căutarea humanizată a eșuat: " + e.getMessage(), e);
+            logger.error("Eroare în căutarea umanizată: {}", e.getMessage());
+            throw new RuntimeException("Căutarea umanizată a eșuat: " + e.getMessage(), e);
         }
     }
-
-    /**
-     * Navighează la Amazon cu întârziere naturală și verificări progresive.
-     */
     private void navigateWithHumanDelay() {
-        logger.debug("Navighez la Amazon cu comportament uman");
-
+        logger.debug("Navighez Amazon cu comportament uman");
         driver.get(PropertiesManager.getBaseUrl());
-
-        // Simulează timpul natural de încărcare a paginii pe care îl observă un om
         waitWithHumanVariation(2000, 1000);
-
-        // Verifică progresiv că pagina s-a încărcat, ca un om care așteaptă
         waitForPageToStabilize();
     }
-
-    /**
-     * Simulează timpul pe care îl petrece un om citind/observând pagina înainte de acțiune.
-     */
     private void simulatePageReadingTime() {
         logger.debug("Simulez timpul de observare a paginii");
 
@@ -88,10 +51,6 @@ public class HomePage extends Page {
         // Simulează scroll ușor pentru a "citi" pagina
         simulateNaturalScrolling();
     }
-
-    /**
-     * Simulează scroll-ul natural pe care îl face un om când explorează o pagină nouă.
-     */
     private void simulateNaturalScrolling() {
         try {
             JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -108,10 +67,6 @@ public class HomePage extends Page {
             logger.debug("Nu s-a putut simula scroll-ul natural: {}", e.getMessage());
         }
     }
-
-    /**
-     * Gestionează popup-urile cu comportament uman - ezitări și pauze naturale.
-     */
     private void handlePopupsHumanLike() {
         logger.debug("Gestionez popup-urile cu comportament uman");
 
