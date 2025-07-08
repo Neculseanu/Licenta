@@ -1,6 +1,6 @@
 package stepdefinitions;
 
-// MODIFICAT: Actualizez toate importurile pentru Cucumber modern
+
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -21,7 +21,7 @@ public class PurchaseSteps {
 
     @Given("I am on the Amazon home page")
     public void i_am_on_amazon_home_page() {
-        driver.get("https://www.amazon.com");
+        driver.get("https://www.amazon.com");  //aici alegem broswerul pe care dorim sa efectuam testarea prin Cucumber.
         logger.info("Navigated to Amazon home page");
     }
 

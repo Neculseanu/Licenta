@@ -37,7 +37,7 @@ public class WebDriverManager {
                 boolean isHeadless = false;
 
                 if (isHeadless) {
-                    // Configurări specifice pentru headless mode - strategia invizibilității
+                    // Configurări specifice pentru modul headless
                     chromeOptions.addArguments("--headless");
                     chromeOptions.addArguments("--window-size=" + PropertiesManager.getHeadlessWindowSize());
                     logger.info("Running in HEADLESS mode for stealth automation");

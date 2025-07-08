@@ -24,11 +24,11 @@ public class JUnitTestRunner {
 
     @BeforeAll
     static void setUpClass() {
-        logger.info("🚀 Începerea configurării testului de Achizitie pe Amazon");
+        logger.info("Începerea configurării testului de Achizitie pe Amazon");
 
         try {
             driver = WebDriverManager.getDriver();
-            logger.info("✅ WebDriver inițializat cu succes: {}", driver.getClass().getSimpleName());
+            logger.info("WebDriver inițializat cu succes: {}", driver.getClass().getSimpleName());
 
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
             driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));

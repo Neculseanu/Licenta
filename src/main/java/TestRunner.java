@@ -35,12 +35,16 @@ public class TestRunner {
             System.out.println("Produsul cautat: " + SEARCH_KEYWORD);
             System.out.println();
 
+
             System.out.println("PASUL 1: Pagina de Start");
             System.out.println("-".repeat(40));
 
             HomePage homePage = new HomePage(driver);
             driver.get(PropertiesManager.getBaseUrl());
-            System.out.println("📍 Navigated to: " + driver.getCurrentUrl());
+            
+            homePage.setDeliveryLocation("Romania");
+Thread.sleep(1000);
+            System.out.println("Navigated to: " + driver.getCurrentUrl());
 
             String currentUrl = driver.getCurrentUrl();
             if (currentUrl.toLowerCase().contains("amazon")) {
@@ -54,7 +58,7 @@ public class TestRunner {
             System.out.println("PASUL 2: Cautarea Produsului");
             System.out.println("-".repeat(40));
 
-            System.out.println("🎯 Searching for: " + SEARCH_KEYWORD);
+            System.out.println("Searching for: " + SEARCH_KEYWORD);
 
             homePage.searchFor(SEARCH_KEYWORD);
 

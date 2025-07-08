@@ -4,9 +4,12 @@ import managers.PropertiesManager;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.Duration;
+import java.util.List;
 import java.util.Random;
 
 
@@ -40,7 +43,47 @@ public class HomePage extends Page {
             throw new RuntimeException("Căutarea a eșuat: " + e.getMessage(), e);
         }
     }
-    private void navigateWithHumanDelay() {
+
+    public void acceptContinueShoppingPopup() {
+        try {
+            WebElement continueBtn = wait.until(
+                    ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(),'Continue shopping')]")));
+            continueBtn.click();
+            System.out.println("Clicked 'Continue shopping' popup");
+        } catch (Exception e) {
+            System.out.println("Popup 'Continue shopping' not displayed");
+        }
+    }
+
+    public void setDeliveryLocation(String countryName) {
+        try {
+            WebElement locationDiv = wait.until(ExpectedConditions.elementToBeClickable(By.id("nav-global-location-popover-link")));
+            locationDiv.click();
+
+            WebElement countryDropdownTrigger = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[@id='GLUXCountryListDropdown']")));
+            countryDropdownTrigger.click();
+
+            Thread.sleep(1000); // Wait for dropdown to activate
+
+            Actions actions = new Actions(driver);
+            for (int i = 0; i < 36; i++) {
+                actions.sendKeys(Keys.ARROW_DOWN).pause(Duration.ofMillis(150));
+            }
+            actions.sendKeys(Keys.ENTER).perform();
+
+            WebElement doneButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[normalize-space(text())='Done']")));
+            doneButton.click();
+
+            System.out.println("Delivery location changed using keyboard navigation");
+        } catch (Exception e) {
+            System.out.println("Failed to change delivery location: " + e.getMessage());
+        }
+    }
+
+
+
+
+private void navigateWithHumanDelay() {
         logger.debug("Navighez Amazon cu comportament uman");
         driver.get(PropertiesManager.getBaseUrl());
         waitWithHumanVariation(2000, 1000);
